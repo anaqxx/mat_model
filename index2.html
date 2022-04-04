@@ -1,0 +1,78 @@
+   
+<html>
+  <style>
+  canvas { background: #eee; }
+  #lab {display: inline-block;margin-right: 50px;}
+  </style>
+  <body>
+  	
+	<div id="lab">
+	    <h1>Лабораторная 2</h1>
+	    <h2>Шимко А.А. ВМО41</h2>
+	    <canvas id="myCanvas1" width="600" height="600"></canvas>
+	</div>
+	
+  </body>
+  
+  <script type="text/javascript">
+    
+var canvas = document.getElementById("myCanvas1");
+var ctx = canvas.getContext("2d");
+var ballRadius = 15;
+var x = 0;
+var y = 0;
+var vx = 20;
+var vy = 20;
+var r = 200;
+
+function drawBall() {
+    ctx.beginPath();
+    ctx.arc(x+600/2, y+600/2, ballRadius, 0, Math.PI*2);
+    ctx.fillStyle = "red";
+    ctx.fill();
+    ctx.closePath();
+}
+
+function drawCircle(){
+	ctx.beginPath();
+    ctx.arc(300, 300, 260, 0, Math.PI*2);
+    ctx.stroke();
+    ctx.moveTo(300,300);
+    ctx.lineTo(x+300,y+300);
+    ctx.stroke();
+}
+
+function new_coor(){
+	var dt=0.1;
+    var km=1.1;
+    var g=9.8;
+   
+
+    x += vx * dt;
+    y += vy * dt;
+
+
+    vy += g * dt;
+
+    r1 = Math.sqrt(Math.pow(x,2) + Math.pow(y,2));
+    if (r1-r>=0){
+        sin = x / r1;
+        cos = Math.sqrt(1 - Math.pow(sin,2));
+        var vx1 = vx + km * (r1-r) * ((-1)*sin) *dt;
+        var vy1 = vy - ((-1)*g +km *(r1-r)*cos)*dt;
+        vx = vx1;
+        vy = vy1;}
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawCircle();
+    drawBall();
+    console.log(x,y);
+    new_coor();
+    console.log(x,y);
+}
+
+setInterval(draw, 10);
+  </script>
+</html>
